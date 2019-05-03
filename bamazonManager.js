@@ -1,6 +1,6 @@
 var mysql= require("mysql");
 var inquirer = require("inquirer");
-const clc = require("cli-color");
+var cli = require("cli");
 var connection = mysql.createConnection({
 
     host: "localhost",
@@ -34,7 +34,7 @@ let sql= 'CALL allproducts';
      
     //  console.log(results[0]);
       for (var i= 0; i< myobject.length; i++){
-          console.log(clc.yellowBright("id: " + myobject[i].id + "| product: " + myobject[i].item + "| price: $" + myobject[i].price + "| quantity: " + myobject[i].available  ));
+          console.log("id: " + myobject[i].id + "| product: " + myobject[i].item + "| price: $" + myobject[i].price + "| quantity: " + myobject[i].available  );
           
      }
 
@@ -82,17 +82,17 @@ inquirer
 
          //console.log("results of checking quantity " + res[0].stock_quantity );
          if (res == 0) {
-           console.log(clc.redBright("Insufficient Available Quantity"));
+           console.log("Insufficient Available Quantity");
          } else {
            //fulfill order calling productOrder Stored Procedure
-           console.log(clc.redBright("full filling order"));
+           console.log("full filling order");
            let sql = "CALL productOrder(?,?,@result)";
            connection.query(
              sql,
              [answer.chooseId, answer.chooseQty, "@result"],
              (error, results, fields) => {
                if (error) {
-                 return console.error(clc.redBright(error.message));
+                 return console.error(error.message);
                }
 
              // console.log("My results " + results[0]);
@@ -102,13 +102,13 @@ inquirer
              // console.log("Result of SP " + resultArr[0]);
                var myobject = resultArr[0];
                if (myobject[0].cost == 1) {
-                 console.log(clc.redBright("Insufficient quantity for to full fill"));
+                 console.log("Insufficient quantity for to full fill");
                } else {
-                 console.log(clc.greenBright(
+                 console.log(
                    "Quantity Left: " +
                      myobject[0].stock_quantity +
                      " total Cost: $" +
-                     myobject[0].cost)
+                     myobject[0].cost
                  );
                }
              }
