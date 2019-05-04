@@ -22,11 +22,14 @@ start();
 
 function start(){
 
-let sql= 'CALL allproducts';
+let sql= 'CALL allproducts(?)';
 
- connection.query(sql, "", (error, results, fields)=> {
+ connection.query(sql,0, (error, results, fields)=> {
 
-      if (error) { return  console.error(error.message);}
+      if (error) { return  console.error(error.message);
+      
+        connection.end();
+      }
           
       var resultArr = Object.values(JSON.parse(JSON.stringify(results)));
       var myobject = resultArr[0];
@@ -77,6 +80,7 @@ inquirer
             
          if (err) {
            console.log(err.message);
+           connection.end();
            return;
          }
 
