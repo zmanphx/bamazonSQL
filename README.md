@@ -1,6 +1,8 @@
 # bamazonSQL
 
 **BamazonSQL** is a command line application demonstrating  **node.js** node packages to query **MySQL** database called *bamazon* with one table *products*. 
+
+
 ![](workbenchSQL.JPG)
 
 Also, used in this application is *mysql* stored procedures which are called to execute sql commands and return back results.
