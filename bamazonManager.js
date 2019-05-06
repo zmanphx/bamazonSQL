@@ -44,10 +44,11 @@ else
 }
 
     //  console.log(results[0]);
-      for (var i= 0; i< myobject.length; i++){
+    console.table(myobject);
+    /* for (var i= 0; i< myobject.length; i++){
           console.log("id: " + myobject[i].id + "| product: " + myobject[i].item + "| price: $" + myobject[i].price + "| quantity: " + myobject[i].available  );
           
-     }
+     } */
 
    
  });
@@ -76,38 +77,127 @@ function checkId(param){
   }
 
 
+  function addinVentory() {
+    inquirer
+    .prompt([
+        
+      { name: "chooseId",
+              type: "input",
+               message: "Choose item id",
+               validate: function(value) {if (isNaN(value)=== false)
+                  {return true;}
+                   return false;
+              }
+         
+    } 
+     , 
+  {   name: "chooseQty",
+      type: "input",
+      message: "Choose Quantity to add",
+      validate: function(value) {if (isNaN(value)=== false)
+          {return true;}
+           return false;
+      }
+  
+  
+  }
+  
+  
+  ])
+    .then(function(answer)
+      {
+        // call procedure to add inventory
+        let sql= 'CALL addInventory(?,?)';
+    
+        connection.query(sql,  [answer.chooseId, answer.chooseQty], (error, results, fields)=> {
+       
+          
+            if (error) {
+              return console.error(clc.redBright(error.message));
+            }
+  
+          // console.log("My results " + results[0]);
+            var resultArr = Object.values(
+              JSON.parse(JSON.stringify(results))
+            );
+          // console.log("Result of SP " + resultArr[0]);
+            var myobject = resultArr[0];
+           
+              console.log(clc.greenBright(
+                "\r\n\r\n" +
+                "***************Updated Inventory*************************" +
+                "\r\n\r\n" +
+  
+                "Item Id: " +
+                  myobject[0].item_id +
+                  " Product_name: " +
+                  myobject[0].product_name  + "  stock quantity : "+  myobject[0].stock_quantity)
+              );
+            
+          }   
+  
+         
+      );
+      connection.end();
+  
+        });
+  }
 
-function addinVentory() {
+
+
+
+
+function addproduct() {
   inquirer
   .prompt([
       
-    { name: "chooseId",
+    { name: "chooseName",
             type: "input",
-             message: "Choose item id to add inventory",
-             validate: function(value) {if (isNaN(value)=== false)
-              {return true;}
-               return false;
-            }
+             message: "Product Name to add to inventory"
+            
        
   } 
    , 
-{   name: "chooseQty",
-    type: "input",
-    message: "Choose Quantity",
-    validate: function(value) {if (isNaN(value)=== false)
-        {return true;}
-         return false;
-    }
+{   name: "chooseDept",
+    type: "list",
+    message: "Which Department item belongs to?",
+    choices:['camping', 'gardening','electronics','painting']
+    
 
 
 }
-  ])
+,
+{ name:"choosePrice",
+ type:"input",
+ message:"Item Price ?",
+ validate: function(value) {if (isNaN(value)=== false)
+  {return true;}
+   return false;
+
+} 
+}
+,
+{ name:"chooseQty",
+type:"input",
+message:"Quantity to add?",
+validate: function(value) {if (isNaN(value)=== false)
+  {return true;}
+   return false;
+
+
+
+}
+}
+
+
+
+])
   .then(function(answer)
     {
       // call procedure to add inventory
-      let sql= 'CALL addInventory(?,?)';
+      let sql= 'CALL addNewItem(?,?,?,?)';
   
-      connection.query(sql,  [answer.chooseId, answer.chooseQty], (error, results, fields)=> {
+      connection.query(sql,  [answer.chooseName, answer.chooseDept,answer.choosePrice,answer.chooseQty ], (error, results, fields)=> {
      
         
           if (error) {
@@ -123,15 +213,19 @@ function addinVentory() {
          
             console.log(clc.greenBright(
               "\r\n\r\n" +
-              "***************Updated Inventory*************************" +
-              "\r\n\r\n" +
+              "***************Added New Product*************************" +
+              "\r\n\r\n" 
+            ));
 
-              "Item Id: " +
+            console.table(myobject);
+
+
+          /*     "Item Id: " +
                 myobject[0].item_id +
                 " Product_name: " +
                 myobject[0].product_name  + "  stock quantity : "+  myobject[0].stock_quantity)
             );
-          
+           */
         }   
 
        
@@ -170,7 +264,7 @@ inquirer
       
     case 
     "Add New Products" :
-    //do stuff
+      addproduct();
      break;
     
     case "Exit":

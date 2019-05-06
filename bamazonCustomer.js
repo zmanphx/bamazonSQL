@@ -36,11 +36,12 @@ let sql= 'CALL allproducts(?)';
      // console.log( myobject);
      
     //  console.log(results[0]);
-      for (var i= 0; i< myobject.length; i++){
+    console.table(myobject) ; 
+   /*  for (var i= 0; i< myobject.length; i++){
           console.log(clc.yellowBright("id: " + myobject[i].id + "| product: " + myobject[i].item + "| price: $" + myobject[i].price + "| quantity: " + myobject[i].available  ));
           
      }
-
+ */
      whichId();
  });
 
