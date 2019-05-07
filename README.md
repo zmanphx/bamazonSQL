@@ -19,7 +19,7 @@ The following *npms* are used in this application:
 
 # bamazonCustomer
 
-When the user starts the *bamazonCustomer.js* the first call is to show all products for sale. Which rendered by executing stored procedure *allproducts* . 
+When the user starts the *bamazonCustomer.js* the first call is to show all products for sale. Which is rendered by executing stored procedure *allproducts* . 
 
  ![](bamazonCustAllprod.JPG)
 
@@ -32,3 +32,25 @@ If the customer order quantity is greater than what is available, the applicatio
 **Insufficient Available Quantity** . 
 
 ![](bamazonCustlowQty.JPG)
+
+# bamazonManager
+When the user starts the *bamazonManager.js* , the console displays inquirer choice menu for inventory action.  
+
+![](bamazonMgtMenu.JPG).
+
+The first item on the menu *View Products for Sale*. Which calls the same Mysql stored procedure used in *bamazonCustomer*. 
+
+
+![](bamazonMgtAllproducts.JPG).
+
+The second menu choice is *View Low Inventory* which calls the same stored procedure used in *View Products for Sale* . A parameter value is sent to the stored procedure call used in the procedure logic to show products with inventory available  of less than 6 . 
+
+![](lowInventory.JPG).
+
+The third menu choice is *Add to Inventory* requiring the user to enter item id and the quantity to add. 
+
+ ![]( bamazonMgtAddInventory.JPG). A stored procedure takes  input parameters the **product id** and **quantity** updating the record for the product with new quantity and returning back the result showing the updated inventory. 
+
+ The final menu option is the *Add New Products* . The user will be prompted to enter **Product Name**, **Department**, **Price** , and **Quantity**. 
+
+ ![](bamazonmgtNewproduct.JPG).
